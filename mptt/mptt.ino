@@ -36,8 +36,6 @@ Servo ESC; //Crear un objeto de clase servo
 int midpwm = 146;             //This is the velue where the converter stays at his output voltage
 int maxpwm = 200;             //Take a value higer than the midpwm but not to high
 int minpwm = 100;             //Take a value lower than the midpwm but not to low
-int pixdivider = 4;           //This value wil
-float pix_max_voltage = 3.3;  //This is the value for the maximum voltage of the pixhawk analog sensor
 //*****************************************************************************
 
 //All data for the MPPT controler
@@ -48,10 +46,6 @@ int escAmpMeter = 3;     //PIN A3 Raw data from the Current of the ESC
 int releControl = 8;        //PIN D8 para control de rele encendido del panel
 int escControl = 9;         //PIN D9 ESC control
 float sensibilidad=0.1;     //sensibilidad del sensor acs712
-
-//Extra option for data logging on Pixhawk
-int pixhawk = 11;         //output data for logging Pixhawk
-int pixhawkCheck = 3;     //Measurment data for checking data. More detail later
 
 //All of the calculated data
 float panelVolts;
@@ -72,7 +66,6 @@ int   mpptout = 255;                                //The MPPT value for raising
 float controlPanelVolt;                           //The MPPT will change this value
 float stepAmount;                                 //For changing the pwmput voltage take bigger stepps when further awy from target
 float pwm = 150;                                  //The value that is send to the converter
-float pixout;                                     // The value send to the pixhawk
 
 int counter;                                      //Counter for the MPPT algorithme
 
@@ -93,18 +86,14 @@ void setup() {
   pinMode(releControl, OUTPUT);
 
   init_esc();
-  
-  //TODO borrar logica
-  //pinMode(pixhawk, OUTPUT);
 
   delay(500);
-  read_data();                                    //Get all data
+  read_data();
 
-  //We will start first at checking what the best MPP is
-  controlPanelVolt = panelVolts / 100 * 76;       //Estimated value for quick mppt control 76% of the panelVolts
-  mpptout = controlPanelVolt * 11.086956;         //Write this data to solarConverter
+  controlPanelVolt = 11;       //3s
+  mpptout = 1000;         //motor apagado
 
-  print_data();                                   //Write this data on the serial monitor
+  print_data();
 }
 
 void loop() {                 //Repeat this continously
@@ -113,7 +102,6 @@ void loop() {                 //Repeat this continously
   while (panelVolts <= 5) {   //Change nothing when solar voltage <= 5, because it is to low for the converter
     read_data();
     print_data();
-    log_pixhawk();
     pwm = maxpwm;                //Write this value so the converter isn't giving any current
     analogWrite(escControl, pwm); //Do above
   }
@@ -144,7 +132,6 @@ void loop() {                 //Repeat this continously
 
   run_voltageControl();      //Change pwmvoltage to right mppt
   print_data();
-  log_pixhawk();              //Give pwm Amp information to Pixhawk 1V = 4A
 }
 
 void init_esc() {
@@ -178,26 +165,24 @@ void read_data() {            //Function for reading analog inputs
   //********************Solar cell Voltage
   panelVolts = 0;
   for (int i = 0; i < NUM_SAMPLES; i++) {
-    panelVolts += analogRead(panelMeter);             // read the panel voltage 100 times and add the values together
+    panelVolts += analogRead(panelMeter);
   }
   panelVolts = (panelVolts*0.0537)/NUM_SAMPLES;
-  Serial.println(panelVolts);
 
   
   //********************esc Voltage
   escVolts = 0;
   for (int i = 0; i < NUM_SAMPLES; i++) {
-    escVolts += analogRead(escMeter);    // read the esc voltage 100 times and add the values together
+    escVolts += analogRead(escMeter);
   }
-  escVolts = (escVolts*55)/(NUM_SAMPLES*1024);
+  escVolts = (escVolts*0.0537)/NUM_SAMPLES;
   
   //********************Solar cell Current
   panelAmp = 0;
   for (int i = 0; i < NUM_SAMPLES; i++) {
-    
-    panelAmpin = analogRead(panelAmpMeter) * 5.0 / 1023.0;                      // reads the panelAmpere 100 times and add the values together
+    panelAmpin = analogRead(panelAmpMeter) * 5.0 / 1023.0;
     panelAmpin = (panelAmpin - 2.5) / sensibilidad;
-    if (panelAmpin <= 0) panelAmpin = 0;// MPPT algorithm does not work with negative values
+    if (panelAmpin <= 0) panelAmpin = 0;
     panelAmp += panelAmpin;
   }
   panelAmp = panelAmp / NUM_SAMPLES;
@@ -243,12 +228,12 @@ void run_mppt() {             //Function for mpp tracker. Here you can change th
 
 
   //The maximum and minimum values.
-  if (mpptout > 255 )mpptout = 255;   //Check for overload data
-  if (mpptout < 0) mpptout = 0;       //Check for underload data
+  if (mpptout > 2000) mpptout = 2000;   //Check for overload data
+  if (mpptout < 1000) mpptout = 1000;       //Check for underload data
 }
 
 void run_voltageControl() {  //Function for controlling panelVolts
-  controlPanelVolt = mpptout / 11.086956;             //Calculate data to voltage 0 - 23
+  controlPanelVolt = mpptout / 86.9565;             //Calculate data to voltage 0 - 23
   controlPanelVolt += 9;                              //Ofset for right voltage 9 - 32 we can not charge when esc is under 9
 
   stepAmount = (controlPanelVolt - panelVolts) / 2;   //Calculate + or - and for higer difference take bigger steps
@@ -285,37 +270,11 @@ void print_data() {           //Print all the information to the serial port
   Serial.print("Abatt:");     //Calculated current of the esc
   Serial.print(escAmp);
   Serial.print("\t");
-  Serial.print("MPPTO:");     //Thempptoutput of the mppt controler
-  Serial.print(mpptout);
-  Serial.print("\t");
-  Serial.print("CPV:");       //The calculated voltage of the solar cells mpptout of the mppt
-  Serial.print(controlPanelVolt);
-  Serial.print("\t");
   Serial.print("outpwm:");    //The actualmpptoutput from the converter
   Serial.print(pwm);
   Serial.print("   \t");
   Serial.print("StA:");       //The step amount
   Serial.print(stepAmount);
   Serial.println();
-  delay(1000);
 }
 
-void log_pixhawk() {          //Function for Pixhawk logging
-  /*
-     Because the mpptoutput voltage with the PWM value are not linear.
-     We need to constantly measure the out value of the arduino.
-     This way we can exactly log the data on the Pixhawk
-  */
-  //  escAmp = 6;                               //You can use this when the solar cells are not connected and you want to test
-  float value = escAmp / pixdivider;                     //Change value to pwmoutput voltage
-  float check = analogRead(pixhawkCheck) / 204.6; //Get data from last writen data
-
-  float stepAmountPix = (value - check) / 2;      //Calculate the stepAmount for making bigger steps
-  pixout = pixout + stepAmountPix;
-
-
-  if (pixout > (pix_max_voltage * 45)) pixout = (pix_max_voltage * 45); //Check if it is not too high for the Pixhawk protection so the voltage
-  //can't go higher and you will not damage the pixhawk
-  if (pixout < 0) pixout = 0;                     //Check if it is not lower than 0
-  analogWrite(pixhawk, pixout);                   //Write data
-}
