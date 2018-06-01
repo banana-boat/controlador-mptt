@@ -71,114 +71,6 @@ int   peakPwm = 1000;
 float peakWatt = 0;
 int   counter;                                      //Counter for the MPPT algorithme
 
-void setup() {
-  // inicializamos monitor serie
-  Serial.begin(9600);
-  Serial.setTimeout(10);
-  
-  //asignamos pines medicion potencia
-  //pinMode(panelMeter, INPUT);
-  //pinMode(panelAmpMeter, INPUT);
-  //pinMode(escMeter, INPUT);
-  //pinMode(escAmpMeter, INPUT);
-  //Asignar un pin al ESC
-  ESC.attach(escControl);
-
-  //asignamos pin de rele
-  pinMode(releControl, OUTPUT);
-
-  init_esc();
-
-  delay(500);
-  read_data();
-
-  // inicializando valores
-  controlPanelVolt = 11;	//3s
-  pwm = 1000;         		//motor apagado
-  watt = 0;
-  peakWatt = 0;
-  peakPwm = 0;
-
-  print_data();
-}
-
-void loop() {                 //Repeat this continously
-  read_data();              //Get all data
-  if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
-    //chequear si ESC está apagado
-    if (!(escDown)) poweroff_esc();
-    print_data();
-    delay(500);
-    continue;
-  }
-
-  if (escDown) init_esc();
-
-  //proteccion
-  if ((pwm >= maxpwm or (pwm<1000)) {
-     pwm = 1000;
-  }
-
-  //chequeamos si ESC esta apagado
-
-  if (counter >= 5) {
-    //for changing the output.
-    run_powerControl();
-    counter = 0;
-  }
-  counter++;                  //Add the counter
-  print_data();
-}
-
-
-void run_powerControl() {  //Function for controlling panelVolts
-
-     if (wattCompare>0){
-     	if (wattCompare>2){
-	   if (controlPanelVolt<=escVolts)){
-	      stepAmount = 20;
-	   } else {
-	     stepAmount = -5;
-	   }
-	} else {
-	  if (controlPanelVolt<=escVolts)){
-	      stepAmount = 5;
-	   } else {
-	     stepAmount = -5;
-	   }
-	}
-      else {
-       if (abs(wattCompare)>2) {
-       	  stepAmount = -20;
-       } else {
-       	 stepAmount = -5;
-       }
-     }
-
-     // Punto estable???
-     //if ((abs(wattCompare)<=1) && (counter > 1)) stepAmount = 0;
-     
-     // Calculo de pwm y watt maximo
-     if (peakWatt < watt) {
-     	peakWatt = watt;
-	peakPwm = pwm;
-     }
-
-     pwm = pwm + StepAmount;
-     if (pwm < 1100) pwm = 1100;                             //Check for underload data. If your convert goes lower than this value change this
-     if (pwm > 2000) pwm = 2000;                           //Check for overload data. This is the maximum pwm data.
-     ESC.writeMicroseconds(pwm);
-     delay(40);
-}
-
-void poweroff_esc() {
-
-  ESC.writeMicroseconds(1000);
-  //rele abierto
-  digitalWrite(releControl, HIGH);
-  escDown = true;
-}
-
 void init_esc() {
   //rele abierto
   digitalWrite(releControl, HIGH);
@@ -195,6 +87,55 @@ void init_esc() {
   ESC.writeMicroseconds(1000);
   escDown = false;
 }
+
+void run_powerControl() {  //Function for controlling panelVolts
+
+  if (wattCompare>0){
+    if (wattCompare>2){
+      if (controlPanelVolt<=escVolts){
+        stepAmount = 20;
+      } else {
+        stepAmount = -5;
+      }
+    } else {
+      if (controlPanelVolt<=escVolts){
+        stepAmount = 5;
+      } else {
+        stepAmount = -5;
+      }
+    }
+  } else {
+    if (abs(wattCompare)>2) {
+      stepAmount = -20;
+    } else {
+      stepAmount = -5;
+    }
+  }
+
+  // Punto estable???
+  //if ((abs(wattCompare)<=1) && (counter > 1)) stepAmount = 0;
+     
+  // Calculo de pwm y watt maximo
+  if (peakWatt < watt) {
+    peakWatt = watt;
+    peakPwm = pwm;
+  }
+
+  pwm = pwm + stepAmount;
+  if (pwm < 1100) pwm = 1100;                             //Check for underload data. If your convert goes lower than this value change this
+  if (pwm > 2000) pwm = 2000;                           //Check for overload data. This is the maximum pwm data.
+  ESC.writeMicroseconds(pwm);
+  delay(40);
+}
+
+
+void poweroff_esc() {
+  ESC.writeMicroseconds(1000);
+  //rele abierto
+  digitalWrite(releControl, HIGH);
+  escDown = true;
+}
+
 
 void read_data() {            //Function for reading analog inputs
   /*
@@ -276,5 +217,58 @@ void print_data() {           //Print all the information to the serial port
   Serial.print("StA:");       //The step amount
   Serial.print(stepAmount);
   Serial.println();
+}
+
+
+void setup() {
+  // inicializamos monitor serie
+  Serial.begin(9600);
+  Serial.setTimeout(10);
+  
+  //Asignar un pin al ESC
+  ESC.attach(escControl);
+
+  //asignamos pin de rele
+  pinMode(releControl, OUTPUT);
+
+  init_esc();
+
+  delay(500);
+  read_data();
+
+  // inicializando valores
+  controlPanelVolt = 11;	//3s
+  pwm = 1000;         		//motor apagado
+  watt = 0;
+  peakWatt = 0;
+  peakPwm = 0;
+
+  print_data();
+}
+
+void loop() {                 //Repeat this continously
+  read_data();              //Get all data
+  if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
+    //chequear si ESC está apagado
+    if (!(escDown)) poweroff_esc();
+    print_data();
+    delay(500);
+  } else {
+  if (escDown) {
+    init_esc();
+  }
+
+  //proteccion
+  if ((pwm >= maxpwm) or (pwm<1000)) {
+     pwm = 1000;
+  }
+  if (counter >= 5) {
+    //for changing the output.
+    run_powerControl();
+    counter = 0;
+  }
+  counter++;                  //Add the counter
+  print_data();
+  }
 }
 
