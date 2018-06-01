@@ -33,7 +33,7 @@ Servo ESC; //Crear un objeto de clase servo
 #define NUM_SAMPLES 200
 
 //************************Change between this lanes****************************
-int midpwm = 1300;             //This is the velue where the converter stays at his output voltage
+int midpwm = 1400;             //This is the velue where the converter stays at his output voltage
 int maxpwm = 2000;             //Take a value higer than the midpwm but not to high
 int minpwm = 1000;             //Take a value lower than the midpwm but not to low
 //*****************************************************************************
@@ -61,11 +61,14 @@ float panelAmpCompare;
 float escAmpCompare;
 float escAmp;
 
+boolean escDown = true;
+
 //Just some other data
 float controlPanelVolt;                           //The MPPT will change this value
 float stepAmount;                                 //For changing the pwmput voltage take bigger stepps when further awy from target
-float pwm = 100;                                  //The value that is send to the converter
-int   peakpwm = 1000; 
+int   pwm = 1000;                                  //The value that is send to the converter
+int   peakPwm = 1000;
+float peakWatt = 0;
 int   counter;                                      //Counter for the MPPT algorithme
 
 void setup() {
@@ -89,32 +92,34 @@ void setup() {
   delay(500);
   read_data();
 
-  controlPanelVolt = 11;       //3s
-  pwm = 1000;         //motor apagado
+  // inicializando valores
+  controlPanelVolt = 11;	//3s
+  pwm = 1000;         		//motor apagado
+  watt = 0;
+  peakWatt = 0;
+  peakPwm = 0;
 
   print_data();
 }
 
 void loop() {                 //Repeat this continously
   read_data();              //Get all data
-
-  if (panelVolts <= 5 or pwm >= maxpwm) {               //When the output of the converter is totaly closed or opened
-    if (pwm == minpwm) {                           // for an open output, first close it and wait a moment.
-      pwm = maxpwm + 1;                            //Let the output current stop. The +1 is that you know it is in this if state
-      analogWrite(escControl, pwm);
-      delay(500);
-      pwm = midpwm;                                //This is the velue where the converter stays at his output voltage
-    }
+  if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
+    //chequear si ESC está apagado
+    if (!(escDown)) poweroff_esc();
+    print_data();
     delay(500);
     continue;
   }
 
-  while (panelVolts <= 5) {   //Change nothing when solar voltage <= 5, because it is to low for the converter
-    read_data();
-    print_data();
-    pwm = maxpwm;                //Write this value so the converter isn't giving any current
-    analogWrite(escControl, pwm); //Do above
+  if (escDown) init_esc();
+
+  //proteccion
+  if ((pwm >= maxpwm or (pwm<1000)) {
+     pwm = 1000;
   }
+
+  //chequeamos si ESC esta apagado
 
   if (counter >= 5) {
     //for changing the output.
@@ -122,32 +127,56 @@ void loop() {                 //Repeat this continously
     counter = 0;
   }
   counter++;                  //Add the counter
-
-  run_voltageControl();      //Change pwmvoltage to right mppt
   print_data();
 }
 
 
 void run_powerControl() {  //Function for controlling panelVolts
-  controlPanelVolt = mpptout / 86.9565;             //Calculate data to voltage 0 - 23
-  controlPanelVolt += 9;                              //Ofset for right voltage 9 - 32 we can not charge when esc is under 9
 
-  stepAmount = (controlPanelVolt - panelVolts) / 2;   //Calculate + or - and for higer difference take bigger steps
+     if (wattCompare>0){
+     	if (wattCompare>2){
+	   if (controlPanelVolt<=escVolts)){
+	      stepAmount = 20;
+	   } else {
+	     stepAmount = -5;
+	   }
+	} else {
+	  if (controlPanelVolt<=escVolts)){
+	      stepAmount = 5;
+	   } else {
+	     stepAmount = -5;
+	   }
+	}
+      else {
+       if (abs(wattCompare)>2) {
+       	  stepAmount = -20;
+       } else {
+       	 stepAmount = -5;
+       }
+     }
 
-  if (stepAmount < 0) stepAmount = -1;
-  if (stepAmount > 0) stepAmount = 1;
+     // Punto estable???
+     //if ((abs(wattCompare)<=1) && (counter > 1)) stepAmount = 0;
+     
+     // Calculo de pwm y watt maximo
+     if (peakWatt < watt) {
+     	peakWatt = watt;
+	peakPwm = pwm;
+     }
 
-  if (escVolts >= 13.0) {                         //Check if the esc is full when using other kind of esc change this
-    pwm += 5;                               //When the esc is full, the only thing we have to do is to lower the current by closing the gate
-  }
-  else {
-    pwm += stepAmount;                                //Add the data for the pwmmpptoutput, when esc is not ful
-  }
+     pwm = pwm + StepAmount;
+     if (pwm < 1100) pwm = 1100;                             //Check for underload data. If your convert goes lower than this value change this
+     if (pwm > 2000) pwm = 2000;                           //Check for overload data. This is the maximum pwm data.
+     ESC.writeMicroseconds(pwm);
+     delay(40);
+}
 
-  if (pwm < 50) pwm = 50;                             //Check for underload data. If your convert goes lower than this value change this
-  if (pwm > 255) pwm = 255;                           //Check for overload data. This is the maximum pwm data.
-  analogWrite(escControl, pwm);                           //Write data to the converter
+void poweroff_esc() {
 
+  ESC.writeMicroseconds(1000);
+  //rele abierto
+  digitalWrite(releControl, HIGH);
+  escDown = true;
 }
 
 void init_esc() {
@@ -164,6 +193,7 @@ void init_esc() {
 
   //paso2 armado de esc
   ESC.writeMicroseconds(1000);
+  escDown = false;
 }
 
 void read_data() {            //Function for reading analog inputs
