@@ -1,0 +1,309 @@
+Vpanel:0.21	Apanel:0.00	Watt:0.00	Watt:0.00	Vbatt:0.00	Abatt:0.00	PWM:1000   	Count:0   	StA:0.00
+
+Vpanel:13.46	Apanel:0.04	Watt:0.52	Watt:0.52	Vbatt:12.44	Abatt:0.01	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.70	Apanel:1.34	Watt:17.06	Watt:16.53	Vbatt:12.05	Abatt:1.35	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.69	Apanel:1.34	Watt:17.03	Watt:-0.03	Vbatt:12.04	Abatt:1.35	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.68	Apanel:1.34	Watt:17.04	Watt:0.01	Vbatt:12.03	Abatt:1.34	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.69	Apanel:1.36	Watt:17.21	Watt:0.17	Vbatt:12.03	Abatt:1.35	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.67	Apanel:1.34	Watt:16.96	Watt:-0.25	Vbatt:12.03	Abatt:1.36	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.69	Apanel:1.31	Watt:16.64	Watt:-0.32	Vbatt:12.04	Abatt:1.33	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.70	Apanel:1.31	Watt:16.63	Watt:-0.01	Vbatt:12.05	Abatt:1.31	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.70	Apanel:1.31	Watt:16.69	Watt:0.06	Vbatt:12.05	Abatt:1.33	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.70	Apanel:1.31	Watt:16.61	Watt:-0.08	Vbatt:12.06	Abatt:1.32	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.71	Apanel:1.31	Watt:16.66	Watt:0.05	Vbatt:12.04	Abatt:1.28	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.70	Apanel:1.30	Watt:16.49	Watt:-0.17	Vbatt:12.04	Abatt:1.30	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.72	Apanel:1.28	Watt:16.33	Watt:-0.16	Vbatt:12.05	Abatt:1.29	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.72	Apanel:1.29	Watt:16.36	Watt:0.03	Vbatt:12.06	Abatt:1.30	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.72	Apanel:1.27	Watt:16.15	Watt:-0.21	Vbatt:12.06	Abatt:1.28	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.71	Apanel:1.27	Watt:16.14	Watt:-0.01	Vbatt:12.08	Abatt:1.25	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.71	Apanel:1.28	Watt:16.27	Watt:0.13	Vbatt:12.05	Abatt:1.28	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.72	Apanel:1.26	Watt:15.99	Watt:-0.28	Vbatt:12.07	Abatt:1.29	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.73	Apanel:1.29	Watt:16.40	Watt:0.41	Vbatt:12.07	Abatt:1.27	PWM:1120   	Count:5   	StA:0.00
+
+Vpanel:12.74	Apanel:1.24	Watt:15.83	Watt:-0.58	Vbatt:12.07	Abatt:1.24	PWM:1130   	Count:5   	StA:10.00
+
+Vpanel:12.66	Apanel:1.38	Watt:17.50	Watt:1.67	Vbatt:12.03	Abatt:1.38	PWM:1140   	Count:5   	StA:10.00
+
+Vpanel:12.59	Apanel:1.52	Watt:19.08	Watt:1.58	Vbatt:11.98	Abatt:1.50	PWM:1150   	Count:5   	StA:10.00
+
+Vpanel:12.51	Apanel:1.63	Watt:20.35	Watt:1.28	Vbatt:11.94	Abatt:1.63	PWM:1160   	Count:5   	StA:10.00
+
+Vpanel:12.40	Apanel:1.79	Watt:22.18	Watt:1.82	Vbatt:11.85	Abatt:1.80	PWM:1170   	Count:5   	StA:10.00
+
+Vpanel:12.35	Apanel:1.91	Watt:23.55	Watt:1.38	Vbatt:11.81	Abatt:1.91	PWM:1180   	Count:5   	StA:10.00
+
+Vpanel:11.25	Apanel:1.98	Watt:22.23	Watt:-1.32	Vbatt:11.09	Abatt:1.96	PWM:1175   	Count:5   	StA:-5.00
+
+Vpanel:11.70	Apanel:1.98	Watt:23.18	Watt:0.95	Vbatt:11.56	Abatt:1.93	PWM:1170   	Count:5   	StA:-5.00
+
+Vpanel:12.28	Apanel:1.91	Watt:23.45	Watt:0.27	Vbatt:11.82	Abatt:1.89	PWM:1170   	Count:5   	StA:0.00
+
+Vpanel:12.38	Apanel:1.90	Watt:23.47	Watt:0.01	Vbatt:11.83	Abatt:1.92	PWM:1170   	Count:5   	StA:0.00
+
+Vpanel:12.28	Apanel:1.89	Watt:23.26	Watt:-0.21	Vbatt:11.80	Abatt:1.91	PWM:1170   	Count:5   	StA:0.00
+
+Vpanel:12.32	Apanel:1.89	Watt:23.29	Watt:0.03	Vbatt:11.83	Abatt:1.90	PWM:1170   	Count:5   	StA:0.00
+
+Vpanel:12.43	Apanel:1.93	Watt:24.00	Watt:0.71	Vbatt:11.76	Abatt:1.93	PWM:1170   	Count:5   	StA:0.00
+
+Vpanel:12.35	Apanel:1.89	Watt:23.31	Watt:-0.69	Vbatt:11.82	Abatt:1.85	PWM:1180   	Count:5   	StA:10.00
+
+Vpanel:11.59	Apanel:1.98	Watt:22.92	Watt:-0.39	Vbatt:11.29	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.44	Apanel:1.98	Watt:22.66	Watt:-0.26	Vbatt:11.37	Abatt:1.92	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.45	Apanel:1.98	Watt:22.62	Watt:-0.04	Vbatt:11.31	Abatt:1.94	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.43	Apanel:1.98	Watt:22.57	Watt:-0.05	Vbatt:11.25	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.56	Apanel:1.98	Watt:22.88	Watt:0.31	Vbatt:11.37	Abatt:1.98	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.47	Apanel:1.98	Watt:22.72	Watt:-0.16	Vbatt:11.42	Abatt:1.94	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.53	Apanel:1.98	Watt:22.86	Watt:0.14	Vbatt:11.41	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.69	Apanel:1.98	Watt:23.10	Watt:0.24	Vbatt:11.51	Abatt:1.96	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.69	Apanel:1.98	Watt:23.11	Watt:0.01	Vbatt:11.44	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.65	Apanel:1.98	Watt:23.05	Watt:-0.06	Vbatt:11.53	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.81	Apanel:1.98	Watt:23.37	Watt:0.32	Vbatt:11.59	Abatt:1.95	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.71	Apanel:1.98	Watt:23.17	Watt:-0.20	Vbatt:11.55	Abatt:1.98	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.73	Apanel:1.98	Watt:23.20	Watt:0.03	Vbatt:11.55	Abatt:1.93	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.74	Apanel:1.98	Watt:23.25	Watt:0.04	Vbatt:11.58	Abatt:1.94	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.20	Apanel:1.97	Watt:24.02	Watt:0.78	Vbatt:11.78	Abatt:1.96	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:11.78	Apanel:1.98	Watt:23.27	Watt:-0.75	Vbatt:11.59	Abatt:1.89	PWM:1190   	Count:5   	StA:10.00
+
+Vpanel:11.00	Apanel:1.98	Watt:21.77	Watt:-1.50	Vbatt:10.83	Abatt:1.98	PWM:1185   	Count:5   	StA:-5.00
+
+Vpanel:11.48	Apanel:1.98	Watt:22.73	Watt:0.96	Vbatt:11.30	Abatt:1.92	PWM:1180   	Count:5   	StA:-5.00
+
+Vpanel:12.35	Apanel:1.94	Watt:23.95	Watt:1.21	Vbatt:11.83	Abatt:1.96	PWM:1175   	Count:5   	StA:-5.00
+
+Vpanel:12.34	Apanel:1.89	Watt:23.28	Watt:-0.66	Vbatt:11.83	Abatt:1.87	PWM:1185   	Count:5   	StA:10.00
+
+Vpanel:11.45	Apanel:1.98	Watt:22.68	Watt:-0.60	Vbatt:11.31	Abatt:1.95	PWM:1180   	Count:5   	StA:-5.00
+
+Vpanel:12.15	Apanel:1.91	Watt:23.19	Watt:0.51	Vbatt:11.79	Abatt:1.94	PWM:1175   	Count:5   	StA:-5.00
+
+Vpanel:12.33	Apanel:1.90	Watt:23.49	Watt:0.30	Vbatt:11.81	Abatt:1.84	PWM:1175   	Count:5   	StA:0.00
+
+Vpanel:12.38	Apanel:1.86	Watt:22.97	Watt:-0.51	Vbatt:11.83	Abatt:1.84	PWM:1185   	Count:5   	StA:10.00
+
+Vpanel:11.50	Apanel:1.97	Watt:22.69	Watt:-0.28	Vbatt:11.29	Abatt:1.98	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.57	Apanel:1.98	Watt:22.95	Watt:0.26	Vbatt:11.48	Abatt:1.90	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.69	Apanel:1.98	Watt:23.16	Watt:0.21	Vbatt:11.58	Abatt:1.95	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.64	Apanel:1.98	Watt:23.07	Watt:-0.09	Vbatt:11.49	Abatt:1.97	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.60	Apanel:1.98	Watt:22.96	Watt:-0.11	Vbatt:11.43	Abatt:1.92	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.65	Apanel:1.98	Watt:23.01	Watt:0.06	Vbatt:11.48	Abatt:1.94	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.66	Apanel:1.98	Watt:23.05	Watt:0.04	Vbatt:11.49	Abatt:1.89	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.66	Apanel:1.98	Watt:23.04	Watt:-0.02	Vbatt:11.52	Abatt:1.96	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.64	Apanel:1.98	Watt:23.04	Watt:0.00	Vbatt:11.49	Abatt:1.94	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.65	Apanel:1.99	Watt:23.13	Watt:0.09	Vbatt:11.49	Abatt:1.96	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.69	Apanel:1.98	Watt:23.15	Watt:0.02	Vbatt:11.51	Abatt:1.96	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.74	Apanel:1.98	Watt:23.26	Watt:0.11	Vbatt:11.60	Abatt:1.94	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.67	Apanel:1.98	Watt:23.09	Watt:-0.17	Vbatt:11.50	Abatt:1.95	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.81	Apanel:1.98	Watt:23.38	Watt:0.28	Vbatt:11.64	Abatt:1.93	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.75	Apanel:1.98	Watt:23.27	Watt:-0.10	Vbatt:11.53	Abatt:1.91	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.78	Apanel:1.98	Watt:23.36	Watt:0.09	Vbatt:11.60	Abatt:1.95	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.77	Apanel:1.99	Watt:23.36	Watt:0.00	Vbatt:11.61	Abatt:1.93	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:12.21	Apanel:1.99	Watt:24.24	Watt:0.88	Vbatt:11.75	Abatt:1.94	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:12.18	Apanel:1.97	Watt:24.05	Watt:-0.19	Vbatt:11.77	Abatt:1.94	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:12.41	Apanel:1.94	Watt:24.05	Watt:-0.00	Vbatt:11.79	Abatt:1.97	PWM:1185   	Count:5   	StA:0.00
+
+Vpanel:11.78	Apanel:1.98	Watt:23.32	Watt:-0.73	Vbatt:11.64	Abatt:1.91	PWM:1195   	Count:5   	StA:10.00
+
+Vpanel:10.88	Apanel:1.98	Watt:21.56	Watt:-1.76	Vbatt:10.74	Abatt:1.92	PWM:1190   	Count:5   	StA:-5.00
+
+Vpanel:11.41	Apanel:1.98	Watt:22.59	Watt:1.03	Vbatt:11.20	Abatt:1.98	PWM:1185   	Count:5   	StA:-5.00
+
+Vpanel:12.29	Apanel:1.96	Watt:24.08	Watt:1.49	Vbatt:11.78	Abatt:1.95	PWM:1180   	Count:5   	StA:-5.00
+
+Vpanel:12.37	Apanel:1.86	Watt:22.96	Watt:-1.12	Vbatt:11.83	Abatt:1.85	PWM:1190   	Count:5   	StA:10.00
+
+Vpanel:11.38	Apanel:1.98	Watt:22.55	Watt:-0.41	Vbatt:11.22	Abatt:1.93	PWM:1185   	Count:5   	StA:-5.00
+
+Vpanel:12.00	Apanel:1.94	Watt:23.25	Watt:0.70	Vbatt:11.74	Abatt:1.92	PWM:1180   	Count:5   	StA:-5.00
+
+Vpanel:12.36	Apanel:1.86	Watt:23.05	Watt:-0.20	Vbatt:11.84	Abatt:1.85	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.38	Apanel:1.85	Watt:22.91	Watt:-0.14	Vbatt:11.82	Abatt:1.87	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:23.05	Watt:0.15	Vbatt:11.82	Abatt:1.84	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:23.00	Watt:-0.06	Vbatt:11.82	Abatt:1.86	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.36	Apanel:1.86	Watt:23.03	Watt:0.03	Vbatt:11.85	Abatt:1.83	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.36	Apanel:1.87	Watt:23.08	Watt:0.04	Vbatt:11.84	Abatt:1.87	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:23.07	Watt:-0.01	Vbatt:11.84	Abatt:1.87	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:23.02	Watt:-0.05	Vbatt:11.83	Abatt:1.85	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:23.00	Watt:-0.03	Vbatt:11.83	Abatt:1.86	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.37	Apanel:1.86	Watt:22.98	Watt:-0.02	Vbatt:11.82	Abatt:1.88	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.38	Apanel:1.89	Watt:23.34	Watt:0.36	Vbatt:11.82	Abatt:1.88	PWM:1180   	Count:5   	StA:0.00
+
+Vpanel:12.36	Apanel:1.86	Watt:22.94	Watt:-0.40	Vbatt:11.83	Abatt:1.84	PWM:1190   	Count:5   	StA:10.00
+
+Vpanel:11.63	Apanel:1.97	Watt:22.93	Watt:-0.01	Vbatt:11.45	Abatt:1.93	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.57	Apanel:1.97	Watt:22.81	Watt:-0.11	Vbatt:11.42	Abatt:1.99	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.56	Apanel:1.98	Watt:22.85	Watt:0.03	Vbatt:11.38	Abatt:1.99	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.67	Apanel:1.97	Watt:23.04	Watt:0.19	Vbatt:11.39	Abatt:1.95	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.61	Apanel:1.98	Watt:22.93	Watt:-0.10	Vbatt:11.48	Abatt:1.96	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.58	Apanel:1.98	Watt:22.88	Watt:-0.05	Vbatt:11.41	Abatt:1.92	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.64	Apanel:1.98	Watt:23.00	Watt:0.12	Vbatt:11.47	Abatt:1.94	PWM:1190   	Count:5   	StA:0.00
+
+Vpanel:11.73	Apanel:1.98	Watt:23.27	Watt:0.27	Vbatt:11.57	Abatt:1.97	PWM:1190   	Count:5   	StA:0.00
+
+
+
+
+
+
+
+
+
+Vpanel:0.37	Apanel:0.00	Watt:0.00	Vbatt:0.00	Abatt:0.00	outpwm:1000   	MPTT:0   	Count:0   	StA:0.00
+
+Vpanel:13.54	Apanel:0.05	Watt:0.62	Vbatt:12.39	Abatt:0.00	outpwm:1120   	MPTT:2   	Count:5   	StA:5.00
+
+Vpanel:12.90	Apanel:1.17	Watt:15.11	Vbatt:12.10	Abatt:0.56	outpwm:1125   	MPTT:2   	Count:5   	StA:5.00
+
+Vpanel:12.87	Apanel:1.27	Watt:16.32	Vbatt:12.07	Abatt:0.63	outpwm:1130   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.84	Apanel:1.31	Watt:16.76	Vbatt:12.06	Abatt:0.68	outpwm:1135   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.82	Apanel:1.34	Watt:17.22	Vbatt:12.05	Abatt:0.70	outpwm:1130   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.85	Apanel:1.30	Watt:16.75	Vbatt:12.07	Abatt:0.66	outpwm:1135   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.83	Apanel:1.34	Watt:17.17	Vbatt:12.06	Abatt:0.69	outpwm:1140   	MPTT:3   	Count:5   	StA:5.00
+
+Vpanel:12.81	Apanel:1.38	Watt:17.66	Vbatt:12.05	Abatt:0.75	outpwm:1145   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.79	Apanel:1.45	Watt:18.50	Vbatt:12.03	Abatt:0.78	outpwm:1150   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.75	Apanel:1.49	Watt:19.04	Vbatt:12.01	Abatt:0.84	outpwm:1155   	MPTT:3   	Count:5   	StA:5.00
+
+Vpanel:12.72	Apanel:1.53	Watt:19.45	Vbatt:12.00	Abatt:0.88	outpwm:1150   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.75	Apanel:1.49	Watt:18.97	Vbatt:12.01	Abatt:0.82	outpwm:1155   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.73	Apanel:1.55	Watt:19.71	Vbatt:11.99	Abatt:0.86	outpwm:1160   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.69	Apanel:1.58	Watt:20.11	Vbatt:11.98	Abatt:0.89	outpwm:1155   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.73	Apanel:1.52	Watt:19.30	Vbatt:12.01	Abatt:0.83	outpwm:1160   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.70	Apanel:1.58	Watt:20.06	Vbatt:11.99	Abatt:0.91	outpwm:1155   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.74	Apanel:1.52	Watt:19.35	Vbatt:12.00	Abatt:0.88	outpwm:1150   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.78	Apanel:1.44	Watt:18.44	Vbatt:12.02	Abatt:0.79	outpwm:1145   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.81	Apanel:1.37	Watt:17.58	Vbatt:12.04	Abatt:0.71	outpwm:1140   	MPTT:-3   	Count:5   	StA:-5.00
+
+Vpanel:12.84	Apanel:1.30	Watt:16.75	Vbatt:12.07	Abatt:0.67	outpwm:1135   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.88	Apanel:1.24	Watt:16.00	Vbatt:12.08	Abatt:0.58	outpwm:1130   	MPTT:-3   	Count:5   	StA:-5.00
+
+Vpanel:12.92	Apanel:1.19	Watt:15.33	Vbatt:12.10	Abatt:0.52	outpwm:1125   	MPTT:-3   	Count:5   	StA:-5.00
+
+Vpanel:12.95	Apanel:1.11	Watt:14.37	Vbatt:12.11	Abatt:0.47	outpwm:1120   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.99	Apanel:1.04	Watt:13.45	Vbatt:12.13	Abatt:0.39	outpwm:1115   	MPTT:-3   	Count:5   	StA:-5.00
+
+Vpanel:13.01	Apanel:1.02	Watt:13.26	Vbatt:12.15	Abatt:0.35	outpwm:1120   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.99	Apanel:1.04	Watt:13.57	Vbatt:12.13	Abatt:0.40	outpwm:1125   	MPTT:3   	Count:5   	StA:5.00
+
+Vpanel:12.95	Apanel:1.12	Watt:14.47	Vbatt:12.12	Abatt:0.46	outpwm:1120   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.99	Apanel:1.06	Watt:13.73	Vbatt:12.13	Abatt:0.40	outpwm:1125   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.96	Apanel:1.10	Watt:14.30	Vbatt:12.11	Abatt:0.44	outpwm:1130   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.92	Apanel:1.16	Watt:15.05	Vbatt:12.11	Abatt:0.49	outpwm:1135   	MPTT:3   	Count:5   	StA:5.00
+
+Vpanel:12.90	Apanel:1.24	Watt:15.93	Vbatt:12.08	Abatt:0.56	outpwm:1140   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.86	Apanel:1.29	Watt:16.59	Vbatt:12.07	Abatt:0.58	outpwm:1145   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.81	Apanel:1.33	Watt:17.06	Vbatt:12.05	Abatt:0.66	outpwm:1150   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.81	Apanel:1.41	Watt:18.08	Vbatt:12.04	Abatt:0.73	outpwm:1155   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.76	Apanel:1.44	Watt:18.38	Vbatt:12.03	Abatt:0.78	outpwm:1160   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.73	Apanel:1.53	Watt:19.50	Vbatt:12.00	Abatt:0.81	outpwm:1165   	MPTT:1   	Count:5   	StA:5.00
+
+Vpanel:12.69	Apanel:1.58	Watt:20.00	Vbatt:11.98	Abatt:0.90	outpwm:1160   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.72	Apanel:1.49	Watt:19.00	Vbatt:12.00	Abatt:0.81	outpwm:1155   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.77	Apanel:1.45	Watt:18.54	Vbatt:12.04	Abatt:0.75	outpwm:1150   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.81	Apanel:1.38	Watt:17.66	Vbatt:12.05	Abatt:0.70	outpwm:1145   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.85	Apanel:1.30	Watt:16.73	Vbatt:12.07	Abatt:0.65	outpwm:1140   	MPTT:-3   	Count:5   	StA:-5.00
+
+Vpanel:12.88	Apanel:1.25	Watt:16.07	Vbatt:12.08	Abatt:0.55	outpwm:1135   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.90	Apanel:1.19	Watt:15.36	Vbatt:12.10	Abatt:0.52	outpwm:1130   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.93	Apanel:1.13	Watt:14.57	Vbatt:12.11	Abatt:0.46	outpwm:1125   	MPTT:-1   	Count:5   	StA:-5.00
+
+Vpanel:12.96	Apanel:1.05	Watt:13.67	Vbatt:12.13	Abatt:0.40	outpwm:1120   	MPTT:-1   	Count:5   	StA:-5.00
