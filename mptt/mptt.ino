@@ -2,9 +2,10 @@
  
 Servo ESC; //Crear un objeto de clase servo
 
-#define NUM_SAMPLES 200
+#define NUM_SAMPLES 100
+#define CONTROL_ESC_VOLTS 10
 
-//************************Change between this lanes****************************
+//***********************Change between this lanes****************************
 int midpwm = 1400;             //This is the velue where the converter stays at his output voltage
 int maxpwm = 2000;             //Take a value higer than the midpwm but not to high
 int minpwm = 1000;             //Take a value lower than the midpwm but not to low
@@ -37,16 +38,23 @@ float escAmp;
 float escAmpin;
 float escAmpPrev;
 
-boolean escDown = true;
+
 
 //Just some other data
-float controlPanelVolt;                        
-float stepAmount;
+int   stepAmount;
+int   lastStepAmount;
 int   pwm = 1000;
 int   peakPwm = 1000;
-int   mptt = 0;
 float peakWatt = 0;
 int   counter;
+boolean escDown = true;
+boolean engineDown = true;
+
+byte PWM_PIN = 3;
+int  pwm_value=0;
+
+//estados: "searching", "adjusting" "stable"
+String mpttStatus = "searching";
 
 void init_esc() {
   //rele abierto
@@ -58,29 +66,63 @@ void init_esc() {
 
   //rele cerrado
   digitalWrite(releControl, LOW);
-  delay(1000);
+  delay(1500);
 
   //paso2 armado de esc
   ESC.writeMicroseconds(1000);
   escDown = false;
-  delay(1000);
+  engineDown = false;
+  delay(1500);
+
+  //incializamos algoritmo
+  stepAmount = -1;
+  
 }
 
 void run_powerControl() {  //Function for controlling panelVolts
-  if (wattDelta>0.4) { 
-    if ((stepAmount>0) && (controlPanelVolt<=escVolts)){
+  lastStepAmount = stepAmount;
+  stepAmount = 0;
+  
+  if (mpttStatus == "searching") {
+    if (CONTROL_ESC_VOLTS<=escVolts) {
+      if (lastStepAmount == -1) {
+        stepAmount = 20;
+      } else if (wattDelta>2.0) {
+        stepAmount = 20;
+      } else if (wattDelta>0.0){
         stepAmount = 10;
-    } else if ((stepAmount<0) || (controlPanelVolt<=escVolts)){
-        stepAmount = -5;
-    }
-  } else if (abs(wattDelta)>0.4){
-      if (stepAmount>0){
-        stepAmount = -5;
       } else {
-        stepAmount = 10;
+        mpttStatus = "adjusting";
+        pwm = peakPwm -20;
       }
+    } else {
+      stepAmount = -20;
+      mpttStatus = "adjusting";
+    }
+  } else if (mpttStatus == "adjusting"){
+    if (CONTROL_ESC_VOLTS<=escVolts) {
+      if (wattDelta>0.1) {
+        stepAmount = 5;
+      } else {
+        pwm = peakPwm;
+        mpttStatus = "stable";
+      }
+    } else {
+      stepAmount = -10;
+      //mpttStatus = "searching";
+    }
   } else {
-    // No se que poner
+    if (wattDelta>2) {
+      stepAmount = 20;
+      mpttStatus = "searching";
+      peakWatt = watt;
+      peakPwm = pwm;
+    } else if (wattDelta<=-2) {
+      stepAmount = -30;
+      mpttStatus = "searching";
+      peakWatt = watt;
+      peakPwm = pwm;
+    }
   }
      
   // Calculo de pwm y watt maximo
@@ -103,6 +145,18 @@ void poweroff_esc() {
   escDown = true;
 }
 
+void poweroff_engine() {
+  ESC.writeMicroseconds(1000);
+  delay(500);
+  engineDown = true;
+}
+
+void poweron_engine() {
+  ESC.writeMicroseconds(peakPwm);
+  pwm = peakPwm;
+  delay(500);
+  engineDown = false;
+}
 
 void read_data() {
 
@@ -166,21 +220,21 @@ void print_data() {           //Print all the information to the serial port
   Serial.print("Watt:");      //Watt calculated
   Serial.print(watt);
   Serial.print("\t");
+  Serial.print("WattDelta:");      //Watt calculated
+  Serial.print(wattDelta);
+  Serial.print("\t");  
   Serial.print("Vbatt:");     //Voltage of the esc
   Serial.print(escVolts);
   Serial.print("\t");
   Serial.print("Abatt:");     //Calculated current of the esc
   Serial.print(escAmp);
   Serial.print("\t");
-  Serial.print("outpwm:");    //The actualmpptoutput from the converter
+  Serial.print("PWM:");    //The actualmpptoutput from the converter
   Serial.print(pwm);
   Serial.print("   \t");
-  Serial.print("MPTT:");
-  Serial.print(mptt);
-  Serial.print("   \t");
-  Serial.print("Count:");
-  Serial.print(counter);
-  Serial.print("   \t");
+  Serial.print("EStado:");
+  Serial.print(mpttStatus);
+  Serial.print("   \t");  
   Serial.print("StA:");       //The step amount
   Serial.print(stepAmount);
   Serial.println();
@@ -198,19 +252,24 @@ void setup() {
   //asignamos pin de rele
   pinMode(releControl, OUTPUT);
 
+  //Valor de la emisora
+  pinMode(PWM_PIN, INPUT);
+
+
   read_data();
   delay(500);
   if (panelVolts <= 5) {
     init_esc();
   }
-  // inicializando valores
-  controlPanelVolt = 10;	//3s
   pwm = 1000;         		//motor apagado
   watt = 0;
   peakWatt = 0;
-  peakPwm = 0;
-  mptt = 0;
-
+  peakPwm = 1000;
+  panelVoltsDelta = 0;
+  escVoltsDelta = 0;
+  panelAmpDelta = 0;
+  escAmpDelta = 0;
+  wattDelta = 0;
   print_data();
 }
 
@@ -224,22 +283,34 @@ void loop() {                 //Repeat this continously
     if (escDown) {
       init_esc();
     }
-
-    //proteccion
-    if ((pwm >= maxpwm) or (pwm<minpwm)) {
-      pwm = minpwm;
-    }
+    pwm_value = pulseIn(PWM_PIN, HIGH);
+    if ((pwm_value<=1200)&&(pwm_value!=0)) {
+      if (engineDown){
+        poweron_engine();  
+      }
+      
+      //proteccion
+      if ((pwm >= maxpwm) or (pwm<minpwm)) {
+        pwm = minpwm;
+      }
     
-    if (counter >= 5) {
-      //for changing the output.
-      run_powerControl();
-      print_data();
-      counter = 0;
-      mptt = 0;
+      if (counter >= 5) {
+        //for changing the output.
+        run_powerControl();
+        print_data();
+        counter = 0;
+        panelVoltsDelta = 0;
+        escVoltsDelta = 0;
+        panelAmpDelta = 0;
+        escAmpDelta = 0;
+        wattDelta = 0;
+      } else {
+        //print_data();
+      }
+      counter++;
     } else {
-      //print_data();
+      poweroff_engine();
     }
-    counter++;
     delay(100);
   }
 }
