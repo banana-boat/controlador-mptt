@@ -71,6 +71,8 @@ void init_esc() {
   //paso2 armado de esc
   ESC.writeMicroseconds(1000);
   escDown = false;
+
+  //TODO revisar este valor
   engineDown = false;
   delay(1500);
 
@@ -85,6 +87,7 @@ void run_powerControl() {  //Function for controlling panelVolts
   
   if (mpttStatus == "searching") {
     if (CONTROL_ESC_VOLTS<=escVolts) {
+      // TODO cambiar lastStepAmount de valor neg a flag
       if (lastStepAmount == -1) {
         stepAmount = 20;
       } else if (wattDelta>2.0) {
@@ -92,6 +95,7 @@ void run_powerControl() {  //Function for controlling panelVolts
       } else if (wattDelta>0.0){
         stepAmount = 10;
       } else {
+        //TODO revisar esta condicion
         mpttStatus = "adjusting";
         pwm = peakPwm -20;
       }
@@ -112,6 +116,9 @@ void run_powerControl() {  //Function for controlling panelVolts
       //mpttStatus = "searching";
     }
   } else {
+
+    // Si baja Amp. panel = > tengo menos radiacion
+    // Si sube Amp. panel = > tenemos mas radiación
     if (wattDelta>2) {
       stepAmount = 20;
       mpttStatus = "searching";
@@ -258,7 +265,7 @@ void setup() {
 
   read_data();
   delay(500);
-  if (panelVolts <= 5) {
+  if (panelVolts > 5) {
     init_esc();
   }
   pwm = 1000;         		//motor apagado
@@ -290,7 +297,10 @@ void loop() {                 //Repeat this continously
       }
       
       //proteccion
-      if ((pwm >= maxpwm) or (pwm<minpwm)) {
+      if (pwm >= maxpwm) {
+        pwm = maxpwm;
+      }
+      if (pwm<minpwm) {
         pwm = minpwm;
       }
     
