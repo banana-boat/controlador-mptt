@@ -382,14 +382,14 @@ void search_value(){
   //send, wait
   pwm = m1;
   ESC.writeMicroseconds(pwm);
-  delay(100);
+  delay(500);
   //get m1 result
   read_data();
   m1_result = watt;
   //send, wait
   pwm = m2;
   ESC.writeMicroseconds(pwm);
-  delay(100);
+  delay(500);
   //get m2 result
   read_data();
   m2_result = watt;
@@ -413,6 +413,9 @@ void search_value(){
     l = minpwm;
     r = maxpwm;
   }
+
+  prev_m1_result = m1_result;
+  prev_m2_result = m2_result;
 
   print_data();
   counter = 0;
