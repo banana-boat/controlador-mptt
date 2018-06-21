@@ -66,6 +66,15 @@ int gradient = 0;
 //estados: "searching", "adjusting" "stable"
 String mpttStatus = "searching";
 
+int l = -1;
+int r = -1;
+int m1 = -1;
+int m2 = -1;
+int m1_result = -1;
+int m2_result = -1;
+int prev_m1_result = -1;
+int prev_m2_result = -1;
+
 void init_esc() {
   //rele abierto
   digitalWrite(releControl, HIGH);
@@ -314,54 +323,103 @@ void setup() {
   print_data();
 }
 
-void loop() {                 //Repeat this continously
-  read_data();              //Get all data
+//Repeat this continously
+void loop() {
+  boolean all_good = run_safety_controls();
+  if(!all_good) return;
+
+  search_value();
+}
+
+boolean run_safety_controls(){
   if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
     //chequear si ESC está apagado
     if (!(escDown)) poweroff_esc();
     if (SDCardAvailable)
       print_sd("[Alert] panelVolt < 5V");
     delay(500);
-  } else {
-    if (escDown) {
-      init_esc();
-    }
-    pwm_value = pulseIn(PWM_PIN, HIGH);
-    if (SDCardAvailable)
-      print_sd("Throttle: " + String(pwm_value));
-      
-    if ((pwm_value<=1200)&&(pwm_value!=0)) {
-      if (engineDown){
-        poweron_engine();  
-      }
-      
-      //proteccion
-      if (pwm >= MAX_PWM) {
-        pwm = MAX_PWM;
-      }
-      if (pwm<MIN_PWM) {
-        pwm = MIN_PWM;
-      }
-    
-      if (counter >= 5) {
-        //for changing the output.
-        run_powerControl();
-        print_data();
-        counter = 0;
-        panelVoltsDelta = 0;
-        escVoltsDelta = 0;
-        panelAmpDelta = 0;
-        escAmpDelta = 0;
-        wattDelta = 0;
-      } else {
-        //print_data();
-      }
-      counter++;
-    } else {
-      if (!(engineDown))
-        poweroff_engine();
-    }
-    delay(100);
+    return false;
   }
+
+  if (escDown) {
+    init_esc();
+  }
+
+  pwm_value = pulseIn(PWM_PIN, HIGH);
+  if (SDCardAvailable)
+    print_sd("Throttle: " + String(pwm_value));
+  if ((pwm_value<=1200)&&(pwm_value!=0)) {
+    if (engineDown){
+      poweron_engine();
+    }
+  } else {
+    poweroff_engine();
+    delay(100);
+    return false;
+  }
+  //proteccion
+  if (pwm >= maxpwm) {
+    pwm = maxpwm;
+  }
+  else if (pwm<minpwm) {
+    pwm = minpwm;
+  }
+}
+
+void search_value(){
+  counter++;
+  if (counter < 5) {
+    //print_data();
+    return;
+  }
+
+  //calculate_new_values();
+  if(l == -1) l = minpwm;
+  if(r == -1) r = maxpwm;
+
+  m1 = l + (r - l) / 3;
+  m2 = r - (r + l) / 3;
+  //send, wait
+  pwm = m1;
+  ESC.writeMicroseconds(pwm);
+  delay(100);
+  //get m1 result
+  read_data();
+  m1_result = watt;
+  //send, wait
+  pwm = m2;
+  ESC.writeMicroseconds(pwm);
+  delay(100);
+  //get m2 result
+  read_data();
+  m2_result = watt;
+
+  //Decide next interval
+  if(m1_result < m2_result){
+    l = m1;
+  } else if(m1_result > m2_result){
+    r = m2;
+  } else {
+    l = m1;
+    r = m2;
+  }
+
+  //Reset if function changed
+  if(m1_result < prev_m1_result && m1_result < prev_m2_result) {
+    l = minpwm;
+    r = maxpwm;
+  }
+  if(m2_result < prev_m1_result && m2_result < prev_m2_result){
+    l = minpwm;
+    r = maxpwm;
+  }
+
+  print_data();
+  counter = 0;
+  panelVoltsDelta = 0;
+  escVoltsDelta = 0;
+  panelAmpDelta = 0;
+  escAmpDelta = 0;
+  wattDelta = 0;
 }
 
