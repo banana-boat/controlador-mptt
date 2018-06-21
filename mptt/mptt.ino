@@ -1,15 +1,23 @@
 #include<Servo.h>
- 
+#include <SPI.h>
+#include <SD.h>
+
 Servo ESC; //Crear un objeto de clase servo
 
 #define NUM_SAMPLES 100
 #define CONTROL_ESC_VOLTS 10
+#define MID_PWM 1400
+#define MIN_PWM 1400
+#define MAX_PWM 1400
+
 
 //***********************Change between this lanes****************************
 int midpwm = 1400;             //This is the velue where the converter stays at his output voltage
 int maxpwm = 2000;             //Take a value higer than the midpwm but not to high
 int minpwm = 1000;             //Take a value lower than the midpwm but not to low
 //*****************************************************************************
+
+const int chipSelect = 4;
 
 //All data for the MPPT controler
 int panelMeter = 0;
@@ -49,9 +57,11 @@ float peakWatt = 0;
 int   counter;
 boolean escDown = true;
 boolean engineDown = true;
+boolean SDCardAvailable =true;
 
 byte PWM_PIN = 3;
 int  pwm_value=0;
+int gradient = 0;
 
 //estados: "searching", "adjusting" "stable"
 String mpttStatus = "searching";
@@ -217,34 +227,48 @@ void read_data() {
   watt = panelAmp * panelVolts;
 }
 
-void print_data() {           //Print all the information to the serial port
-  Serial.print("Vpanel:");    //Voltage of the Solar cell
-  Serial.print(panelVolts);
-  Serial.print("\t");
-  Serial.print("Apanel:");    //Current of the Solar cell
-  Serial.print(panelAmp);
-  Serial.print("\t");
-  Serial.print("Watt:");      //Watt calculated
-  Serial.print(watt);
-  Serial.print("\t");
-  Serial.print("WattDelta:");      //Watt calculated
-  Serial.print(wattDelta);
-  Serial.print("\t");  
-  Serial.print("Vbatt:");     //Voltage of the esc
-  Serial.print(escVolts);
-  Serial.print("\t");
-  Serial.print("Abatt:");     //Calculated current of the esc
-  Serial.print(escAmp);
-  Serial.print("\t");
-  Serial.print("PWM:");    //The actualmpptoutput from the converter
-  Serial.print(pwm);
-  Serial.print("   \t");
-  Serial.print("EStado:");
-  Serial.print(mpttStatus);
-  Serial.print("   \t");  
-  Serial.print("StA:");       //The step amount
-  Serial.print(stepAmount);
-  Serial.println();
+void print_sd(String line) {
+  // open the file. note that only one file can be open at a time,
+  // so you have to close this one before opening another.
+  File dataFile = SD.open("banana.log", FILE_WRITE);
+
+  // if the file is available, write to it:
+  if (dataFile) {
+    dataFile.println(line);
+    dataFile.close();
+    // print to the serial port too:
+  }
+  // if the file isn't open, pop up an error:
+  else {
+    Serial.println("error opening datalog.txt");
+  }
+}
+
+void print_data() {
+  
+  String dataString = "";
+  dataString += "Vpanel: ";
+  dataString += String(panelVolts);
+  dataString += " Apanel: ";
+  dataString += String(panelAmp);
+  dataString += " Watt: ";
+  dataString += String(watt);
+  dataString += " WattDelta: ";
+  dataString += String(wattDelta);
+  dataString += " Vesc: ";
+  dataString += String(escVolts);
+  dataString += " Aesc: ";
+  dataString += String(escAmp);
+  dataString += " PWM: ";
+  dataString += String(pwm);
+  dataString += " Status: ";
+  dataString += String(mpttStatus);
+  dataString += " Step: ";
+  dataString += String(stepAmount);
+
+  Serial.println(dataString);
+  if (SDCardAvailable)
+    print_sd(dataString);
 }
 
 
@@ -252,6 +276,16 @@ void setup() {
   // inicializamos monitor serie
   Serial.begin(9600);
   Serial.setTimeout(10);
+
+  Serial.println("Initializing SD card...");
+
+  // see if the card is present and can be initialized:
+  SDCardAvailable = true;
+  if (!SD.begin(chipSelect)) {
+    Serial.println("Card failed, or not present");
+    SDCardAvailable = false;
+  }
+  Serial.println("card initialized.");
   
   //Asignar un pin al ESC
   ESC.attach(escControl);
@@ -285,23 +319,28 @@ void loop() {                 //Repeat this continously
   if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
     //chequear si ESC está apagado
     if (!(escDown)) poweroff_esc();
+    if (SDCardAvailable)
+      print_sd("[Alert] panelVolt < 5V");
     delay(500);
   } else {
     if (escDown) {
       init_esc();
     }
     pwm_value = pulseIn(PWM_PIN, HIGH);
+    if (SDCardAvailable)
+      print_sd("Throttle: " + String(pwm_value));
+      
     if ((pwm_value<=1200)&&(pwm_value!=0)) {
       if (engineDown){
         poweron_engine();  
       }
       
       //proteccion
-      if (pwm >= maxpwm) {
-        pwm = maxpwm;
+      if (pwm >= MAX_PWM) {
+        pwm = MAX_PWM;
       }
-      if (pwm<minpwm) {
-        pwm = minpwm;
+      if (pwm<MIN_PWM) {
+        pwm = MIN_PWM;
       }
     
       if (counter >= 5) {
@@ -319,7 +358,8 @@ void loop() {                 //Repeat this continously
       }
       counter++;
     } else {
-      poweroff_engine();
+      if (!(engineDown))
+        poweroff_engine();
     }
     delay(100);
   }
