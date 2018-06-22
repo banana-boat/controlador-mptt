@@ -1,14 +1,12 @@
 #include<Servo.h>
-#include <SPI.h>
-#include <SD.h>
 
 Servo ESC; //Crear un objeto de clase servo
 
 #define NUM_SAMPLES 100
 #define CONTROL_ESC_VOLTS 10
 #define MID_PWM 1400
-#define MIN_PWM 1400
-#define MAX_PWM 1400
+#define MIN_PWM 1000
+#define MAX_PWM 2000
 
 
 //***********************Change between this lanes****************************
@@ -46,21 +44,22 @@ float escAmp;
 float escAmpin;
 float escAmpPrev;
 
-
-
 //Just some other data
 int   stepAmount;
 int   lastStepAmount;
 int   pwm = 1000;
 int   peakPwm = 1000;
 float peakWatt = 0;
-int   counter;
+
+// Contadores
+int counter;
+int rxCounter;
+
 boolean escDown = true;
 boolean engineDown = true;
-boolean SDCardAvailable =true;
 
 byte PWM_PIN = 3;
-int  pwm_value=0;
+int  pwm_value = 0;
 int gradient = 0;
 
 //estados: "searching", "adjusting" "stable"
@@ -123,19 +122,18 @@ void run_powerControl() {  //Function for controlling panelVolts
       }
     } else {
       stepAmount = -10;
-      //mpttStatus = "searching";
     }
   } else {
 
     // Si baja Amp. panel = > tengo menos radiacion
     // Si sube Amp. panel = > tenemos mas radiación
     if (wattDelta>2) {
-      stepAmount = 20;
+      stepAmount = 10;
       mpttStatus = "searching";
       peakWatt = watt;
       peakPwm = pwm;
     } else if (wattDelta<=-2) {
-      stepAmount = -30;
+      stepAmount = -20;
       mpttStatus = "searching";
       peakWatt = watt;
       peakPwm = pwm;
@@ -227,25 +225,8 @@ void read_data() {
   watt = panelAmp * panelVolts;
 }
 
-void print_sd(String line) {
-  // open the file. note that only one file can be open at a time,
-  // so you have to close this one before opening another.
-  File dataFile = SD.open("banana.log", FILE_WRITE);
-
-  // if the file is available, write to it:
-  if (dataFile) {
-    dataFile.println(line);
-    dataFile.close();
-    // print to the serial port too:
-  }
-  // if the file isn't open, pop up an error:
-  else {
-    Serial.println("error opening datalog.txt");
-  }
-}
 
 void print_data() {
-  
   String dataString = "";
   dataString += "Vpanel: ";
   dataString += String(panelVolts);
@@ -267,8 +248,6 @@ void print_data() {
   dataString += String(stepAmount);
 
   Serial.println(dataString);
-  if (SDCardAvailable)
-    print_sd(dataString);
 }
 
 
@@ -276,16 +255,6 @@ void setup() {
   // inicializamos monitor serie
   Serial.begin(9600);
   Serial.setTimeout(10);
-
-  Serial.println("Initializing SD card...");
-
-  // see if the card is present and can be initialized:
-  SDCardAvailable = true;
-  if (!SD.begin(chipSelect)) {
-    Serial.println("Card failed, or not present");
-    SDCardAvailable = false;
-  }
-  Serial.println("card initialized.");
   
   //Asignar un pin al ESC
   ESC.attach(escControl);
@@ -302,6 +271,11 @@ void setup() {
   if (panelVolts > 5) {
     init_esc();
   }
+
+  // inicializamos contadores
+  counter = 0;
+  rxCounter = 0;
+  
   pwm = 1000;         		//motor apagado
   watt = 0;
   peakWatt = 0;
@@ -319,18 +293,15 @@ void loop() {                 //Repeat this continously
   if (panelVolts <= 5) {               //When the output of the converter is totaly closed or opened
     //chequear si ESC está apagado
     if (!(escDown)) poweroff_esc();
-    if (SDCardAvailable)
-      print_sd("[Alert] panelVolt < 5V");
+    print_data();
     delay(500);
   } else {
     if (escDown) {
       init_esc();
     }
     pwm_value = pulseIn(PWM_PIN, HIGH);
-    if (SDCardAvailable)
-      print_sd("Throttle: " + String(pwm_value));
       
-    if ((pwm_value<=1200)&&(pwm_value!=0)) {
+    if ((pwm_value<=1300)&&(pwm_value!=0)) {
       if (engineDown){
         poweron_engine();  
       }
@@ -342,7 +313,6 @@ void loop() {                 //Repeat this continously
       if (pwm<MIN_PWM) {
         pwm = MIN_PWM;
       }
-    
       if (counter >= 5) {
         //for changing the output.
         run_powerControl();
@@ -354,13 +324,16 @@ void loop() {                 //Repeat this continously
         escAmpDelta = 0;
         wattDelta = 0;
       } else {
-        //print_data();
+        print_data();
       }
       counter++;
     } else {
-      if (!(engineDown))
+      if (!(engineDown) && (rxCounter >= 10)) {
+        rxCounter = 0;
         poweroff_engine();
+      }
     }
+    rxCounter++;
     delay(100);
   }
 }
